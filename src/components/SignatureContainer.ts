@@ -16,6 +16,9 @@ export interface SignatureContainerProps extends WrapperProps {
     gridColor?: string;
     gridBorder?: number;
     penColor?: string;
+    maxWidth?: string;
+    minWidth?: string;
+    velocityFilterWeight?: string;
     penSize?: number;
     resetCaption?: string;
     className?: string;
@@ -49,6 +52,8 @@ export default class SignatureContainer extends Component<SignatureContainerProp
             gridx: this.props.gridx,
             gridy: this.props.gridx,
             height: this.props.height,
+            maxWidth: this.props.maxWidth,
+            minWidth: this.props.minWidth,
             mxObject: this.props.mxObject,
             penColor: this.props.penColor,
             penSize: this.props.penSize,
@@ -57,6 +62,7 @@ export default class SignatureContainer extends Component<SignatureContainerProp
             responsiveRatio: this.props.responsiveRatio,
             showgrid: this.props.showgrid,
             timeOut: this.props.timeOut,
+            velocityFilterWeight: this.props.velocityFilterWeight,
             width: this.props.width
         });
     }

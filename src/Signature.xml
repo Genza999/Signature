@@ -31,73 +31,91 @@
 
         <property key="penColor" type="string" defaultValue="#0000ff">
             <caption>Pen color</caption>
-            <category>Customization</category>
+            <category>Pen Customization</category>
             <description>Pen color</description>
+        </property>
+
+        <property key="maxWidth" type="string" defaultValue="2.5">
+            <caption>Maximum line width</caption>
+            <category>Pen Customization</category>
+            <description>Pathline maximum width</description>
+        </property>
+
+        <property key="minWidth" type="string" defaultValue="0.5">
+            <caption>Minimum line width</caption>
+            <category>Pen Customization</category>
+            <description>Pathline minimum width</description>
+        </property>
+
+        <property key="velocityFilterWeight" type="string" defaultValue="0.7">
+            <caption>Pen pressure weight</caption>
+            <category>Pen Customization</category>
+            <description>Velocity filter pressure</description>
         </property>
 
         <property key="penSize" type="integer" defaultValue="2">
             <caption>Pen size</caption>
-            <category>Customization</category>
+            <category>Pen Customization</category>
             <description>Pen size</description>
         </property>
 
         <property key="timeOut" type="integer" defaultValue="1000">
             <caption>Signature timeout</caption>
-            <category>Customization</category>
+            <category>Responsiveness</category>
             <description>Time (in ms) to wait before considering the signature finished after the pen has stopped touching the pad.</description>
         </property>
 
         <property key="height" type="integer" defaultValue="500">
             <caption>Canvas height</caption>
-            <category>Customization</category>
+            <category>Canvas</category>
             <description>Canvas height</description>
         </property>
 
         <property key="width" type="integer" defaultValue="500">
             <caption>Canvas width</caption>
-            <category>Customization</category>
+            <category>Canvas</category>
             <description>Canvas width</description>
         </property>
 
         <property key="showgrid" type="boolean" defaultValue="true">
             <caption>Show background grid</caption>
-            <category>Customization</category>
+            <category>Grid</category>
             <description>Show background grid</description>
         </property>
 
         <property key="gridx" type="integer" defaultValue="50">
             <caption>Grid X</caption>
-            <category>Customization</category>
+            <category>Grid</category>
             <description>Grid column size</description>
         </property>
 
         <property key="gridy" type="integer" defaultValue="50">
             <caption>Grid Y</caption>
-            <category>Customization</category>
+            <category>Grid</category>
             <description>Grid row size</description>
         </property>
 
         <property key="gridColor" type="string" defaultValue="#777">
             <caption>Grid color</caption>
-            <category>Customization</category>
+            <category>Grid</category>
             <description>Grid color</description>
         </property>
 
         <property key="gridBorder" type="integer" defaultValue="2">
             <caption>Grid border width</caption>
-            <category>Customization</category>
+            <category>Grid</category>
             <description>Border width(px)</description>
         </property>
 
         <property key="responsive" type="boolean" defaultValue="true">
             <caption>Responsive</caption>
-            <category>Customization</category>
+            <category>Responsiveness</category>
             <description>Make the signature pad responsive. Set the ratio accordingly</description>
         </property>
 
         <property key="responsiveRatio" type="string" defaultValue="1.5">
             <caption>Responsive ratio</caption>
-            <category>Customization</category>
+            <category>Responsiveness</category>
             <description>This is the width/height ratio for the widget when setting responsive. Ratio is calculated as: heigh = width / responsiveRatio</description>
         </property>
 
