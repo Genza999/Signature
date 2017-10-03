@@ -275,17 +275,20 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
     }
 
     private strokeBegin(event: Touch) {
+        this.stopTimeout();
         this.reset();
         this.strokeUpdate(event);
     }
 
     private strokeUpdate(event: Touch) {
         const point = this.createPoint(event);
+        this.stopTimeout();
         this.addPoint(point);
     }
 
     private strokeEnd(event: TouchEvent) {
         event.preventDefault();
+        this.stopTimeout();
         const canDrawCurve = this.points.length > 2;
         const point = this.points[0];
 
@@ -303,6 +306,12 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
         this.drawPoint(point.x, point.y, penSize as number);
         context.closePath();
         context.fill();
+    }
+
+    private stopTimeout() {
+            if (this.timer) {
+                clearTimeout(this.timer);
+            }
     }
 
     private finalizeSignature() {
