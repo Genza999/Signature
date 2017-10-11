@@ -1,5 +1,6 @@
 import { Component, createElement } from "react";
 import { SignatureCanvas } from "./Signature";
+import "../ui/Signature.css";
 
 interface WrapperProps {
     class: string;
