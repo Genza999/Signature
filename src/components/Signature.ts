@@ -2,8 +2,6 @@ import { Component, createElement } from "react";
 import * as classNames from "classnames";
 import { findDOMNode } from "react-dom";
 import "../ui/Signature.css";
-// import Bezier from "./bezier";
-// import Point from "./point";
 
 interface WrapperProps {
     class?: string;
@@ -273,8 +271,7 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
             if (this.props.dataUrl) {
                 this.props.mxObject.set(this.props.dataUrl, this.canvas.toDataURL());
             } else {
-                // tslint:disable-next-line:no-console
-                console.error("finalizeSignature: no dataUrl attribute found.");
+                mx.ui.error("finalizeSignature: no dataUrl attribute found.");
             }
         }
         this.showImage();
@@ -283,7 +280,6 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
     private beginCurve(e: PointerEvent) {
         const context = this.canvas.getContext("2d") as CanvasRenderingContext2D;
         e.preventDefault();
-        e.stopPropagation();
 
         this.bezierBuf = [];
 
@@ -300,7 +296,6 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
     private updateCurve(e: PointerEvent) {
         const context = this.canvas.getContext("2d") as CanvasRenderingContext2D;
         e.preventDefault();
-        e.stopPropagation();
 
         this.stopTimeout();
 
@@ -345,7 +340,6 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
     private endCurve(e: PointerEvent) {
         const context = this.canvas.getContext("2d") as CanvasRenderingContext2D;
         e.preventDefault();
-        e.stopPropagation();
 
         this.stopTimeout();
         // Finish last points in Bezier buffer

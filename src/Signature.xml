@@ -34,25 +34,6 @@
             <category>Pen Customization</category>
             <description>Pen color</description>
         </property>
-
-        <property key="maxWidth" type="string" defaultValue="1.5">
-            <caption>Maximum line width</caption>
-            <category>Pen Customization</category>
-            <description>Pathline maximum width</description>
-        </property>
-
-        <property key="minWidth" type="string" defaultValue="0.5">
-            <caption>Minimum line width</caption>
-            <category>Pen Customization</category>
-            <description>Pathline minimum width</description>
-        </property>
-
-        <property key="velocityFilterWeight" type="string" defaultValue="0.0">
-            <caption>Pen pressure weight</caption>
-            <category>Pen Customization</category>
-            <description>Velocity filter pressure</description>
-        </property>
-
         <property key="penSize" type="integer" defaultValue="2">
             <caption>Pen size</caption>
             <category>Pen Customization</category>
