@@ -3,6 +3,7 @@ import * as classNames from "classnames";
 import { findDOMNode } from "react-dom";
 import Bezier from "./bezier";
 import Point from "./point";
+import "../ui/Signature.css";
 
 interface WrapperProps {
     class?: string;
@@ -35,17 +36,21 @@ export interface Signaturestate {
     signature_unset: boolean;
 }
 
+export interface Coordinates {
+    x: number;
+    y: number;
+}
+
 export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
     private canvas: HTMLCanvasElement;
     private movedTo: boolean;
     private divNode: HTMLDivElement;
     private image: HTMLImageElement;
-    private isEmpty: boolean;
-    private timer: number;
     private points: any[] = [];
-    private button: HTMLButtonElement;
-    private lastVelocity: number;
     private lastWidth: number;
+    private button: HTMLButtonElement;
+    private timer: number;
+    private lastVelocity: number;
 
     constructor(props: SignatureProps) {
         super(props);
@@ -62,6 +67,8 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
         this.finalizeSignature = this.finalizeSignature.bind(this);
         this.showImage = this.showImage.bind(this);
         this.eventResetClicked = this.eventResetClicked.bind(this);
+        this.updateCurve = this.updateCurve.bind(this);
+        this.endCurve = this.endCurve.bind(this);
 
     }
 
@@ -69,12 +76,10 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
         if (this.state.signature_unset) {
 
             return createElement("div", {
-                className: classNames("wgt-Signature", this.props.className),
+                className: classNames("wgt_Signature signature_unset", this.props.className),
                 ref: (node: HTMLDivElement) => this.divNode = node
             },
                 createElement("canvas", {
-                    className: classNames("wgt-Signature", this.props.className),
-                    gridBorder: this.props.gridBorder + "px solid",
                     gridx: this.props.gridx,
                     gridy: this.props.gridy,
                     height: this.props.height,
@@ -83,7 +88,6 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
                     width: this.props.width
                 }),
                 createElement("img", {
-                    className: classNames("signature_set", this.props.className),
                     height: this.props.height,
                     ref: this.getImageRef,
                     style: { display: "none", opacity: 0.5, border: this.props.gridBorder + "px solid" },
@@ -92,12 +96,10 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
 
         } else if (this.state.signature_set) {
             return createElement("div", {
-                className: classNames("wgt-Signature", this.props.className),
+                className: classNames("wgt_Signature signature_set", this.props.className),
                 ref: (node: HTMLDivElement) => this.divNode = node
             },
                 createElement("canvas", {
-                    className: classNames("signture_set", this.props.className),
-                    gridBorder: this.props.gridBorder + "px solid",
                     gridx: this.props.gridx,
                     gridy: this.props.gridy,
                     height: this.props.height,
@@ -106,7 +108,6 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
                     width: this.props.width
                 }),
                 createElement("img", {
-                    className: classNames("signature_set", this.props.className),
                     height: this.props.height,
                     ref: this.getImageRef,
                     src: this.image.src,
@@ -114,7 +115,7 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
                     width: this.props.width
                 }),
                 createElement("button", {
-                    className: classNames(" signature_set", this.props.className),
+                    className: classNames(" btn", this.props.className),
                     onClick: this.eventResetClicked,
                     ref: this.getButtonRef,
                     resetCaption: this.props.resetCaption,
@@ -172,7 +173,7 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
                         : height;
             } else {
                 node_height = this.props.height as number;
-            }
+              }
 
             this.canvas.height = node_height;
             this.canvas.width = node_width - 4;
@@ -236,76 +237,11 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
     }
 
     private setupEvents() {
-        this.canvas.addEventListener("touchstart", this.handleTouchStart.bind(this));
-        this.canvas.addEventListener("touchmove", this.handleTouchMove.bind(this));
-        this.canvas.addEventListener("touchend", this.handleTouchEnd.bind(this));
+        this.canvas.addEventListener("pointerdown", this.beginCurve.bind(this));
 
         if (this.props.responsive) {
             window.addEventListener("resize", this.resizeCanvas.bind(this));
         }
-    }
-
-    private reset() {
-        const context = this.canvas.getContext("2d") as CanvasRenderingContext2D;
-        const minWidth = parseFloat(this.props.minWidth as string);
-        const maxWidth = parseFloat(this.props.maxWidth as string);
-        this.points = [];
-        this.lastVelocity = 0;
-        this.lastWidth = ((minWidth) + (maxWidth) / 2);
-        this.isEmpty = true;
-        context.fillStyle = this.props.penColor as string;
-    }
-
-    private handleTouchStart(event: TouchEvent) {
-        const touch = event.changedTouches[0];
-        this.strokeBegin(touch);
-    }
-
-    private handleTouchMove(event: TouchEvent) {
-        event.preventDefault();
-        const touch = event.changedTouches[0];
-        this.strokeUpdate(touch);
-    }
-
-    private handleTouchEnd(event: TouchEvent) {
-        const wasCanvasTouched = event.target === this.canvas;
-        if (wasCanvasTouched) {
-            this.strokeEnd(event);
-        }
-    }
-
-    private strokeBegin(event: Touch) {
-        this.stopTimeout();
-        this.reset();
-        this.strokeUpdate(event);
-    }
-
-    private strokeUpdate(event: Touch) {
-        const point = this.createPoint(event);
-        this.stopTimeout();
-        this.addPoint(point);
-    }
-
-    private strokeEnd(event: TouchEvent) {
-        event.preventDefault();
-        this.stopTimeout();
-        const canDrawCurve = this.points.length > 2;
-        const point = this.points[0];
-
-        if (!canDrawCurve && point) {
-            this.strokeDraw(point);
-        }
-        this.timer = setTimeout(this.finalizeSignature, this.props.timeOut);
-    }
-
-    private strokeDraw(point: Point) {
-        const context = this.canvas.getContext("2d") as CanvasRenderingContext2D;
-        const penSize = (this.props.penSize) ? this.props.penSize : this.penSize();
-
-        context.beginPath();
-        this.drawPoint(point.x, point.y, penSize as number);
-        context.closePath();
-        context.fill();
     }
 
     private stopTimeout() {
@@ -319,25 +255,39 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
             if (this.props.dataUrl) {
                 this.props.mxObject.set(this.props.dataUrl, this.canvas.toDataURL());
             } else {
-                // tslint:disable-next-line:no-console
-                console.error("finalizeSignature: no dataUrl attribute found.");
-            }
+                mx.ui.error("finalizeSignature: no dataUrl attribute found.");
+              }
         }
         this.showImage();
     }
 
-    private penSize() {
-        const minWidth = parseFloat(this.props.minWidth as string);
-        const maxWidth = parseFloat(this.props.maxWidth as string);
-        return (((minWidth) + (maxWidth)) / 2);
+    private beginCurve(e: PointerEvent) {
+        e.preventDefault();
+        const context = this.canvas.getContext("2d") as CanvasRenderingContext2D;
+
+        this.stopTimeout();
+        this.points = [];
+        this.lastVelocity = 0;
+        this.lastWidth = (parseFloat(this.props.minWidth as string) + parseFloat(this.props.maxWidth as string) / 2);
+
+        context.lineWidth = this.props.penSize as number;
+        context.strokeStyle = this.props.penColor as string;
+        this.canvas.addEventListener("pointermove", this.updateCurve);
+        this.canvas.addEventListener("pointerup", this.endCurve);
     }
 
-    private createPoint(event: Touch) {
-        const rect = this.canvas.getBoundingClientRect();
-        return new Point(
-            event.clientX - rect.left,
-            event.clientY - rect.top
-        );
+    private createPoint(event: PointerEvent) {
+    const rect = this.canvas.getBoundingClientRect();
+    return new Point(
+      event.pageX - rect.left,
+      event.pageY - rect.top
+    );
+    }
+
+    private updateCurve(e: PointerEvent) {
+        e.preventDefault();
+        const point = this.createPoint(e);
+        this.addPoint(point);
     }
 
     private addPoint(point: Point) {
@@ -367,36 +317,10 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
         }
     }
 
-    private calculateCurveControlPoints(s1: Point, s2: Point, s3: Point) {
-        const dx1 = s1.x - s2.x;
-        const dy1 = s1.y - s2.y;
-        const dx2 = s2.x - s3.x;
-        const dy2 = s2.y - s3.y;
-
-        const m1 = { x: (s1.x + s2.x) / 2.0, y: (s1.y + s2.y) / 2.0 };
-        const m2 = { x: (s2.x + s3.x) / 2.0, y: (s2.y + s3.y) / 2.0 };
-
-        const l1 = Math.sqrt(dx1 * dx1 + dy1 * dy1);
-        const l2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
-
-        const dxm = (m1.x - m2.x);
-        const dym = (m1.y - m2.y);
-
-        const k = l2 / (l1 + l2);
-        const cm = { x: m2.x + dxm * k, y: m2.y + dym * k };
-
-        const tx = s2.x - cm.x;
-        const ty = s2.y - cm.y;
-
-        return {
-            c1: new Point(m1.x + tx, m1.y + ty),
-            c2: new Point(m2.x + tx, m2.y + ty)
-        };
-    }
-
     private addCurve(curve: Bezier) {
         const startPoint = curve.startPoint;
         const endPoint = curve.endPoint;
+        this.lastVelocity = 0;
         const velocityFilterWeight = parseFloat(this.props.velocityFilterWeight as string);
         let velocity;
         let newWidth;
@@ -410,12 +334,6 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
 
         this.lastVelocity = velocity;
         this.lastWidth = newWidth;
-    }
-
-    private strokeWidth(velocity: number) {
-        const minWidth = parseFloat(this.props.minWidth as string);
-        const maxWidth = parseFloat(this.props.maxWidth as string);
-        return Math.max(maxWidth / (velocity + 1), minWidth);
     }
 
     private drawCurve(curve: Bezier, startWidth: number, endWidth: number) {
@@ -457,14 +375,76 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
             width = startWidth + ttt * widthDelta;
             this.drawPoint(x, y, width);
         }
-        context.closePath();
         context.fill();
     }
 
     private drawPoint(x: number, y: number, size: number) {
         const context = this.canvas.getContext("2d") as CanvasRenderingContext2D;
-        context.moveTo(x, y);
         context.arc(x, y, size, 0, 2 * Math.PI, false);
-        this.isEmpty = false;
     }
+
+    private strokeWidth(velocity: number) {
+        const minWidth = parseFloat(this.props.minWidth as string);
+        const maxWidth = parseFloat(this.props.maxWidth as string);
+        return Math.max(maxWidth / (velocity + 1), minWidth);
+    }
+
+    private calculateCurveControlPoints(s1: Point, s2: Point, s3: Point) {
+        const dx1 = s1.x - s2.x;
+        const dy1 = s1.y - s2.y;
+        const dx2 = s2.x - s3.x;
+        const dy2 = s2.y - s3.y;
+
+        const m1 = { x: (s1.x + s2.x) / 2.0, y: (s1.y + s2.y) / 2.0 };
+        const m2 = { x: (s2.x + s3.x) / 2.0, y: (s2.y + s3.y) / 2.0 };
+
+        const l1 = Math.sqrt(dx1 * dx1 + dy1 * dy1);
+        const l2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+
+        const dxm = (m1.x - m2.x);
+        const dym = (m1.y - m2.y);
+
+        const k = l2 / (l1 + l2);
+        const cm = { x: m2.x + dxm * k, y: m2.y + dym * k };
+
+        const tx = s2.x - cm.x;
+        const ty = s2.y - cm.y;
+
+        return {
+            c1: new Point(m1.x + tx, m1.y + ty),
+            c2: new Point(m2.x + tx, m2.y + ty)
+        };
+    }
+
+    private endCurve(e: PointerEvent) {
+        e.preventDefault();
+        this.stopTimeout();
+
+        const canDrawCurve = this.points.length > 2;
+        const point = this.points[0];
+
+        if (!canDrawCurve && point) {
+            this.strokeDraw(point);
+        }
+        this.canvas.removeEventListener("pointermove", this.updateCurve);
+        this.canvas.removeEventListener("pointerup", this.endCurve);
+        this.timer = setTimeout(this.finalizeSignature, this.props.timeOut);
+    }
+
+    private strokeDraw(point: Point) {
+        const context = this.canvas.getContext("2d") as CanvasRenderingContext2D;
+        const penSize = (this.props.penSize) ? this.props.penSize : this.penSize();
+
+        context.beginPath();
+        this.drawPoint(point.x, point.y, penSize as number);
+        context.closePath();
+        context.fill();
+    }
+
+    private penSize() {
+        const minWidth = parseFloat(this.props.minWidth as string);
+        const maxWidth = parseFloat(this.props.maxWidth as string);
+        return (((minWidth) + (maxWidth)) / 2);
+    }
+
 }

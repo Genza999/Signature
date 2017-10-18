@@ -43,10 +43,10 @@ export default class Bezier extends Component<{}, {} > {
     }
 
     point(t: number, start: number, c1: number, c2: number, end: number) {
-        return start * (1.0 - t) * (1.0 - t) * (1.0 - t)
-            + 3.0 * c1 * (1.0 - t) * (1.0 - t) * t
-            + 3.0 * c2 * (1.0 - t) * t * t
-            + end * t * t * t;
+        return start * t * t * t
+               + 3.0 * c1 * (1.0 - t) * t * t
+               + 3.0 * c2 * (1.0 - t) * (1.0 - t) * t
+               + end * (1.0 - t) * (1.0 - t) * (1.0 - t);
     }
 
 }
