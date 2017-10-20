@@ -29,7 +29,7 @@
             </translations>
         </property>
 
-        <property key="penColor" type="string" defaultValue="#0000ff">
+        <property key="penColor" type="string" defaultValue="#000">
             <caption>Pen color</caption>
             <category>Pen Customization</category>
             <description>Pen color</description>
@@ -101,7 +101,7 @@
             <description>Grid color</description>
         </property>
 
-        <property key="gridBorder" type="integer" defaultValue="2">
+        <property key="gridBorder" type="integer" defaultValue="1">
             <caption>Grid border width</caption>
             <category>Grid</category>
             <description>Border width(px)</description>

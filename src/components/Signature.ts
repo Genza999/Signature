@@ -43,7 +43,6 @@ export interface Coordinates {
 
 export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
     private canvas: HTMLCanvasElement;
-    private movedTo: boolean;
     private divNode: HTMLDivElement;
     private image: HTMLImageElement;
     private points: any[] = [];
@@ -54,7 +53,6 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
 
     constructor(props: SignatureProps) {
         super(props);
-        this.movedTo = false;
 
         this.state = {
             signature_set: false,
@@ -67,6 +65,7 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
         this.finalizeSignature = this.finalizeSignature.bind(this);
         this.showImage = this.showImage.bind(this);
         this.eventResetClicked = this.eventResetClicked.bind(this);
+        this.beginCurve = this.beginCurve.bind(this);
         this.updateCurve = this.updateCurve.bind(this);
         this.endCurve = this.endCurve.bind(this);
 
@@ -119,7 +118,7 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
                     onClick: this.eventResetClicked,
                     ref: this.getButtonRef,
                     resetCaption: this.props.resetCaption,
-                    style: { width: this.canvas.width }
+                    style: { width: this.props.width }
                 }, "Reset Signature"));
 
         }
@@ -175,10 +174,10 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
                 node_height = this.props.height as number;
               }
 
-            this.canvas.height = node_height;
-            this.canvas.width = node_width - 4;
-            this.image.height = node_height;
-            this.image.width = node_width;
+            this.canvas.height = this.props.height as number;
+            this.canvas.width = this.props.width as number - 4;
+            this.image.height = this.props.height as number;
+            this.image.width = this.props.width as number;
             this.resetCanvas();
         }
     }
@@ -207,7 +206,7 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
 
     private resetCanvas() {
         const context = this.canvas.getContext("2d") as CanvasRenderingContext2D;
-        context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        context.clearRect(0, 0, this.props.width as number, this.props.height as number);
         this.drawGrid();
     }
 
@@ -216,19 +215,19 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
         let x = this.props.gridx as number;
         let y = this.props.gridy as number;
         const context = this.canvas.getContext("2d") as CanvasRenderingContext2D;
-        const width = this.canvas.width as number;
-        const height = this.canvas.height as number;
+        const width = this.props.width as number;
+        const height = this.props.height as number;
 
         context.beginPath();
 
         for (; x < width; x += this.props.gridx as number) {
             context.moveTo(x, 0);
-            context.lineTo(x, this.canvas.height);
+            context.lineTo(x, this.props.height as number);
         }
 
         for (; y < height; y += this.props.gridy as number) {
             context.moveTo(0, y);
-            context.lineTo(this.canvas.width, y);
+            context.lineTo(this.props.width as number, y);
         }
 
         context.lineWidth = 1;
@@ -420,31 +419,9 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
         e.preventDefault();
         this.stopTimeout();
 
-        const canDrawCurve = this.points.length > 2;
-        const point = this.points[0];
-
-        if (!canDrawCurve && point) {
-            this.strokeDraw(point);
-        }
         this.canvas.removeEventListener("pointermove", this.updateCurve);
         this.canvas.removeEventListener("pointerup", this.endCurve);
         this.timer = setTimeout(this.finalizeSignature, this.props.timeOut);
-    }
-
-    private strokeDraw(point: Point) {
-        const context = this.canvas.getContext("2d") as CanvasRenderingContext2D;
-        const penSize = (this.props.penSize) ? this.props.penSize : this.penSize();
-
-        context.beginPath();
-        this.drawPoint(point.x, point.y, penSize as number);
-        context.closePath();
-        context.fill();
-    }
-
-    private penSize() {
-        const minWidth = parseFloat(this.props.minWidth as string);
-        const maxWidth = parseFloat(this.props.maxWidth as string);
-        return (((minWidth) + (maxWidth)) / 2);
     }
 
 }

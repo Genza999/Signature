@@ -50,7 +50,7 @@ export default class SignatureContainer extends Component<SignatureContainerProp
             gridBorder: this.props.gridBorder,
             gridColor: this.props.gridColor,
             gridx: this.props.gridx,
-            gridy: this.props.gridx,
+            gridy: this.props.gridy,
             height: this.props.height,
             maxWidth: this.props.maxWidth,
             minWidth: this.props.minWidth,
