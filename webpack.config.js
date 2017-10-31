@@ -20,16 +20,12 @@ const widgetConfig = {
             "tests": path.resolve(__dirname, "./tests")
         }
     },
-    module: {
+  module: {
         rules: [
             { test: /\.ts$/, use: "ts-loader" },
             { test: /\.css$/, loader: ExtractTextPlugin.extract({
                 fallback: "style-loader",
                 use: "css-loader"
-            }) },
-            { test: /\.scss$/, loader: ExtractTextPlugin.extract({
-                fallback: "style-loader",
-                use: "css-loader!sass-loader"
             }) }
         ]
     },

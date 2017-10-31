@@ -2,9 +2,7 @@ import { Component, createElement } from "react";
 import { SignatureCanvas } from "./Signature";
 
 interface WrapperProps {
-    class: string;
     mxObject: mendix.lib.MxObject;
-    style: string;
 }
 
 export interface SignatureContainerProps extends WrapperProps {
@@ -19,12 +17,10 @@ export interface SignatureContainerProps extends WrapperProps {
     maxWidth?: string;
     minWidth?: string;
     velocityFilterWeight?: string;
-    penSize?: number;
     resetCaption?: string;
     className?: string;
     responsive?: boolean;
     responsiveRatio?: string;
-    ref?: () => void;
     timeOut?: number;
     showgrid?: boolean;
 }
@@ -56,7 +52,6 @@ export default class SignatureContainer extends Component<SignatureContainerProp
             minWidth: this.props.minWidth,
             mxObject: this.props.mxObject,
             penColor: this.props.penColor,
-            penSize: this.props.penSize,
             resetCaption: this.props.resetCaption,
             responsive: this.props.responsive,
             responsiveRatio: this.props.responsiveRatio,
