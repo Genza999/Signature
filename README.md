@@ -11,6 +11,9 @@ The widget implements bezier curves and velocity for the smooth drawing of the s
 ## Configuration
 Add the widget to a dataview. Connect the data URL property to an unlimited String attribute of the dataview context object.
 
+## Demo project
+[https://mxtestproject102.mxapps.io/](https://mxtestproject102.mxapps.io)
+
 ## Usage
 
 ### Appearance configuration
