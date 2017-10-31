@@ -11,22 +11,22 @@ The widget implements bezier curves and velocity for the smooth drawing of the s
 ## Configuration
 Add the widget to a dataview. Connect the data URL property to an unlimited String attribute of the dataview context object.
 
-##Usage
+## Usage
 
-###Appearance configuration
-![Data source](/assets/Appearance.png)
+### Appearance configuration
+![Data source](/assets/Appearance.PNG)
 - This is where you select the attribute which is to hold the sigature string. The attribute must be an unlimited string.
 
-![Data source](/assets/penCustomization.png)
+![Data source](/assets/penCustomization.PNG)
 - In the pen customization, this is where you can customize your own pen size, the pen color, the maximum and minimum pen width and the velocity pressure.
 
-![Data source](/assets/response.png)
+![Data source](/assets/response.PNG)
 - The signature timeout can be set from here(time before the signature is saved to an image) and both the responsive and responsive ratio.
 
-![Data source](/assets/canvas.png)
+![Data source](/assets/canvas.PNG)
 - You can customize the canvas height and width from here.
 
-![Data source](/assets/grid.png)
+![Data source](/assets/grid.PNG)
 - Whether to show a grid background or not, the size of the y-axis and the x-axis of the grid,
 color of the grid and the grid border size can all be customized from here.
 
