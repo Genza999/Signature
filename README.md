@@ -26,7 +26,7 @@ Add the widget to a dataview. Connect the data URL property to an unlimited Stri
 ![Data source](/assets/Appearance.PNG)
 - This is where you select the attribute which is to hold the sigature string. The attribute must be an unlimited string.
 
-![Data source](/assets/penCustomization.PNG)
+![Data source](/assets/PenCustomization.PNG)
 - In the pen customization, this is where you can customize your own pen size, the pen color, the maximum and minimum pen width and the velocity pressure.
 
 ![Data source](/assets/response.PNG)
