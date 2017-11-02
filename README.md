@@ -42,7 +42,6 @@ color of the grid and the grid border size can all be customized from here.
 
 ### Properties
 * *Pen color* - HTML color code of the pen.
-* *Pen size* - Size of the pen in pixels.
 * *Signature timeout* - Amount of milliseconds the widget will wait after the user has stopped writing before saving the signature.
 * *Canvast height* - Height of writable area in pixels.
 * *Canvas width* - Width of writable area in pixels.
