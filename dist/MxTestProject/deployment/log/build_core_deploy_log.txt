@@ -1,9 +1,0 @@
-﻿Buildfile: C:\Users\David\Desktop\Signature\dist\MxTestProject\deployment\build_core.xml
-
-deploy:
-    [unzip] Expanding: C:\Program Files\Mendix\7.6.0\modeler\deployment.mxz into C:\Users\David\Desktop\Signature\dist\MxTestProject\deployment
-
-BUILD SUCCESSFUL
-Total time: 1 second
-
-

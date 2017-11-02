@@ -1,3 +1,0 @@
-[rtlauncher:container$] INFO Container start took 6058. Ready to accept admin requests.
-Oct 31, 2017 1:19:41 PM java.util.prefs.WindowsPreferences <init>
-WARNING: Could not open/create prefs root node Software\JavaSoft\Prefs at root 0x80000002. Windows RegCreateKeyEx(...) returned error code 5.
