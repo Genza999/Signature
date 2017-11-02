@@ -16,6 +16,12 @@ Add the widget to a dataview. Connect the data URL property to an unlimited Stri
 
 ## Usage
 
+![Data source](/assets/Capture.PNG)
+- A signature drawn on the canvas.
+
+![Data source](/assets/signatureImage.PNG)
+- After the signature is drawn, it is then captured as an image and a reset button to return the canvas back to its original state appears.
+
 ### Appearance configuration
 ![Data source](/assets/Appearance.PNG)
 - This is where you select the attribute which is to hold the sigature string. The attribute must be an unlimited string.
