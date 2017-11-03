@@ -1,42 +1,42 @@
 /* Clear button */
-.wgt_Signature div {
+.widget-Signature div {
     clear: both;
 }
 
-.wgt_Signature canvas,
-.wgt_Signature img {
+.widget-Signature canvas,
+.widget-Signature image {
     position: relative;
     left:     0px;
     right:    0px;
     max-width: none;
 }
 
-.signature_unset canvas {
+.signature-unset canvas {
     display: block;
     touch-action: none;
 }
 
-.signature_unset.img {
+.signature-unset.image {
     display: none;
 }
 
-.signature_unset button {
+.signature-unset button {
     display: none;
 }
 
-.signature_set canvas {
+.signature-set canvas {
     display: none;
 }
 
-.signature_set img {
+.signature-set image {
     display: block;
     opacity: 0.5;
 }
 
-.signature_set button {
+.signature-set button {
     display: block;
 }
 
-.signature_disabled button {
+.signature-disabled button {
     display: none;
 }

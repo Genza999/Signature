@@ -7,6 +7,7 @@ export default class Point extends Component<{}, {}> {
 
     constructor(x: number, y: number, time?: number) {
         super();
+
         this.x = x;
         this.y = y;
         this.time = time || new Date().getTime();

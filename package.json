@@ -2,7 +2,7 @@
   "name": "signature",
   "widgetName": "Signature",
   "version": "1.0.0",
-  "description": "A siganture pad for capturing signatures",
+  "description": "A signature pad for capturing signatures",
   "scripts": {
     "start": "nodemon --watch webpack.config.js --watch Gruntfile.js --exec grunt",
     "pretest": "tsc && npm run lint && grunt release",

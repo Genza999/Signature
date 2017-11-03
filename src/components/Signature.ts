@@ -53,7 +53,7 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
         if (this.state.signature_unset) {
 
             return createElement("div", {
-                className: classNames("wgt_Signature signature_unset", this.props.className),
+                className: classNames("widget-Signature signature-unset", this.props.className),
                 ref: (node: HTMLDivElement) => this.divNode = node
             },
                 createElement("canvas", {
@@ -73,7 +73,7 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
 
         } else if (this.state.signature_set) {
             return createElement("div", {
-                className: classNames("wgt_Signature signature_set", this.props.className),
+                className: classNames("widget-Signature signature-set", this.props.className),
                 ref: (node: HTMLDivElement) => this.divNode = node
             },
                 createElement("canvas", {
@@ -95,9 +95,8 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
                     className: classNames(" btn", this.props.className),
                     onClick: this.eventResetClicked,
                     ref: this.getButtonRef,
-                    resetCaption: this.props.resetCaption,
                     style: { width: this.props.width }
-                }, "Reset Signature"));
+                }, "Reset"));
 
         }
         return null;
@@ -186,7 +185,7 @@ export class SignatureCanvas extends Component<SignatureProps, Signaturestate> {
     }
 
     private drawGrid() {
-        if (!this.props.showgrid) return;
+        if (!this.props.showGrid) return;
         let x = this.props.gridx as number;
         let y = this.props.gridy as number;
         const context = this.canvas.getContext("2d") as CanvasRenderingContext2D;

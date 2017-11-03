@@ -17,12 +17,11 @@ export interface SignatureContainerProps extends WrapperProps {
     maxWidth?: string;
     minWidth?: string;
     velocityFilterWeight?: string;
-    resetCaption?: string;
     className?: string;
     responsive?: boolean;
     responsiveRatio?: string;
     timeOut?: number;
-    showgrid?: boolean;
+    showGrid?: boolean;
 }
 
 interface SignatureContainerState {
@@ -52,10 +51,9 @@ export default class SignatureContainer extends Component<SignatureContainerProp
             minWidth: this.props.minWidth,
             mxObject: this.props.mxObject,
             penColor: this.props.penColor,
-            resetCaption: this.props.resetCaption,
             responsive: this.props.responsive,
             responsiveRatio: this.props.responsiveRatio,
-            showgrid: this.props.showgrid,
+            showGrid: this.props.showGrid,
             timeOut: this.props.timeOut,
             velocityFilterWeight: this.props.velocityFilterWeight,
             width: this.props.width
@@ -74,12 +72,6 @@ export default class SignatureContainer extends Component<SignatureContainerProp
 
         if (mxObject) {
             this.subscriptionHandles.push(window.mx.data.subscribe({
-                callback: this.handleSubscriptions,
-                guid: mxObject.getGuid()
-            }));
-
-            this.subscriptionHandles.push(window.mx.data.subscribe({
-                attr: this.props.dataUrl,
                 callback: this.handleSubscriptions,
                 guid: mxObject.getGuid()
             }));
